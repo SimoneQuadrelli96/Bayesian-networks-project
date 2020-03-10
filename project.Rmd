@@ -1,0 +1,10 @@
+---
+title: "Project"
+output: html_notebook
+---
+
+```{r}
+setwd("C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling")
+data <- read.csv(file = 'heart.csv')
+head(data)
+```
