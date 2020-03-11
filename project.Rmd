@@ -3,8 +3,57 @@ title: "Project"
 output: html_notebook
 ---
 
+Import libraries
+```{r}
+library(gRbase)
+library(gRim)
+```
+
+Read the dataset
 ```{r}
 setwd("C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling")
 data <- read.csv(file = 'heart.csv')
+data <- data[c(14,1,2,3,4,5,6,7,8,9,10,11,12,13)]
+data$target <- factor(data$target)
+data$sex <- factor(data$sex)
+data$cp <- factor(data$cp)
+data$fbs <- factor(data$fbs)
+data$restecg <- factor(data$restecg)
+data$exang <- factor(data$exang)
+data$slope <- factor(data$slope)
+data$ca <- factor(data$ca)
+data$ca <- factor(data$ca)
+# to make data comparable with th other dataset
+data$thal[data$thal >= 1] <- 1
+data$thal[data$thal < 1]  <- 0
+data$thal <- factor(data$thal)
+data$chol[data$chol > 240]  <- 1
+data$chol[data$chol <= 240]  <- 0
+names(data)[names(data) == "chol"] <- "hyperchol"
+data$hyperchol <- factor(data$hyperchol)
 head(data)
 ```
+
+
+age, trestbps, thalach, oldpeak are continuous varibale, while the remaining variables
+are discrete. Therefore mixed interaction models are applied
+
+```{r}
+SS<- CGstats(data,varnames = c("target", "age", "trestbps", "thalach", "oldpeak"))
+SS
+```
+
+```{r}
+apply(SS$center,1,sd)/apply(SS$center,1,mean)
+```
+
+```{r}
+can.parms <- CGstats2mmodParms(SS,type="ghk")
+can.parms
+```
+
+```{r}
+apply(can.parms$h,1,sd)/apply(can.parms$h,1,mean)
+```
+
+

@@ -1749,16 +1749,155 @@ summary {
 
 
 <!-- rnb-text-begin -->
+<p>Import libraries</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoXCJDOi9Vc2Vycy9zaW1vbi9EZXNrdG9wL0dyYXBoaWNhbCBNb2RlbC9wcm9iYWJpbGlzdGljX21vZGVsbGluZ1wiKVxuZGF0YSA8LSByZWFkLmNzdihmaWxlID0gJ2hlYXJ0LmNzdicpXG5oZWFkKGRhdGEpXG5gYGAifQ== -->
-<pre class="r"><code>setwd(&quot;C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling&quot;)
-data &lt;- read.csv(file = &#39;heart.csv&#39;)
-head(data)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShnUmJhc2UpXG5saWJyYXJ5KGdSaW0pXG5gYGAifQ== -->
+<pre class="r"><code>library(gRbase)
+library(gRim)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Read the dataset</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0d2QoXCJDOi9Vc2Vycy9zaW1vbi9EZXNrdG9wL0dyYXBoaWNhbCBNb2RlbC9wcm9iYWJpbGlzdGljX21vZGVsbGluZ1wiKVxuZGF0YSA8LSByZWFkLmNzdihmaWxlID0gJ2hlYXJ0LmNzdicpXG5kYXRhIDwtIGRhdGFbYygxNCwxLDIsMyw0LDUsNiw3LDgsOSwxMCwxMSwxMiwxMyldXG5kYXRhJHRhcmdldCA8LSBmYWN0b3IoZGF0YSR0YXJnZXQpXG5kYXRhJHNleCA8LSBmYWN0b3IoZGF0YSRzZXgpXG5kYXRhJGNwIDwtIGZhY3RvcihkYXRhJGNwKVxuZGF0YSRmYnMgPC0gZmFjdG9yKGRhdGEkZmJzKVxuZGF0YSRyZXN0ZWNnIDwtIGZhY3RvcihkYXRhJHJlc3RlY2cpXG5kYXRhJGV4YW5nIDwtIGZhY3RvcihkYXRhJGV4YW5nKVxuZGF0YSRzbG9wZSA8LSBmYWN0b3IoZGF0YSRzbG9wZSlcbmRhdGEkY2EgPC0gZmFjdG9yKGRhdGEkY2EpXG5kYXRhJGNhIDwtIGZhY3RvcihkYXRhJGNhKVxuIyB0byBtYWtlIGRhdGEgY29tcGFyYWJsZSB3aXRoIHRoIG90aGVyIGRhdGFzZXRcbmRhdGEkdGhhbFtkYXRhJHRoYWwgPj0gMV0gPC0gMVxuZGF0YSR0aGFsW2RhdGEkdGhhbCA8IDFdICA8LSAwXG5kYXRhJHRoYWwgPC0gZmFjdG9yKGRhdGEkdGhhbClcbmRhdGEkY2hvbFtkYXRhJGNob2wgPiAyNDBdICA8LSAxXG5kYXRhJGNob2xbZGF0YSRjaG9sIDw9IDI0MF0gIDwtIDBcbm5hbWVzKGRhdGEpW25hbWVzKGRhdGEpID09IFwiY2hvbFwiXSA8LSBcImh5cGVyY2hvbFwiXG5kYXRhJGh5cGVyY2hvbCA8LSBmYWN0b3IoZGF0YSRoeXBlcmNob2wpXG5oZWFkKGRhdGEpXG5gYGAifQ== -->
+<pre class="r"><code>setwd(&quot;C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling&quot;)
+data &lt;- read.csv(file = &#39;heart.csv&#39;)
+data &lt;- data[c(14,1,2,3,4,5,6,7,8,9,10,11,12,13)]
+data$target &lt;- factor(data$target)
+data$sex &lt;- factor(data$sex)
+data$cp &lt;- factor(data$cp)
+data$fbs &lt;- factor(data$fbs)
+data$restecg &lt;- factor(data$restecg)
+data$exang &lt;- factor(data$exang)
+data$slope &lt;- factor(data$slope)
+data$ca &lt;- factor(data$ca)
+data$ca &lt;- factor(data$ca)
+# to make data comparable with th other dataset
+data$thal[data$thal &gt;= 1] &lt;- 1
+data$thal[data$thal &lt; 1]  &lt;- 0
+data$thal &lt;- factor(data$thal)
+data$chol[data$chol &gt; 240]  &lt;- 1
+data$chol[data$chol &lt;= 240]  &lt;- 0
+names(data)[names(data) == &quot;chol&quot;] &lt;- &quot;hyperchol&quot;
+data$hyperchol &lt;- factor(data$hyperchol)
+head(data)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6MTQsIm5yb3ciOjZ9LCJyZGYiOiJINHNJQUFBQUFBQUFCcTFVUVUvQ01CU3UzUml5QkVMaTc0QUl5TVZFSmRGNE5wNjRsbEVZV3RkbHE0b21KcDZORnhOdm5yejVZL1MvK0F2UTE5RUhjdzZVaENaZityVjk3ZmZldDY2blI5MlcyM1VKSVJheEhFcXNBbERpSEo0MG11MG1JVGFGMFFheFNVbjNZNGphQWxLQnZxekRrc1hmb0ptTmp1QlhYTVRBcXNtcU9XNGJTU01UWC9BRWl6Rjhkc2lBZVVwR3dDWUFsTjhCdEFISGdEM0FQbUEzbFI3TndLU281ZWpYWHdsWlg4dHlXR3BCVnNQTzBUQ2tpYVQxSDlWWjVYZUFSOEFUNEJud0FPaXZtTlhHUEt0VkMwNlppWHl0cHRMVTJYU0JoclhNMUZXOGZBTzhHRTlmQVdlQTI1eUMwMFd2cVdEOU14SG40Sk1rcmJQNXJ0dEh4NTcyeExTRHlTQnBHSmZLelVybFpNM3pYS3RSdVdKYXlNNHhvdkN2cTI3SXpzcVhJZ2ZyK0E0L0g2Q0FYWEI4Z0NvWXJsZzA1TXFNTERia1NHTStOcFI2b1dHYkt1S3g2b1d4R1pmOG01QkhuaThGN2hyMGNLMm9RN2szeEtIeW1XQ2VqOG53TVF0bWExTDBRODdPY1MwV011UXpjV2FZclUvSTFGU0s1SFVkNjlLRzB2dnBUWElXMk9QMm1XTDFRUVJiY2l3cXlsQ05aQUNIMGEza28yZGVsQ2d6VWIwTXRIaS81dm1Yd1htdDBkSUtxZHRVTnIyVDRwV3BwcDI5V1E0UGhxTUF5eTRJMXVQb2FnV3FUSXFzaDlFb3dJL2x3bXhjVjFJeGpITTlLWEJtK2g5T3ZnRUFJQ210Q3djQUFBPT0ifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["target"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["age"],"name":[2],"type":["int"],"align":["right"]},{"label":["sex"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["cp"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["trestbps"],"name":[5],"type":["int"],"align":["right"]},{"label":["hyperchol"],"name":[6],"type":["fctr"],"align":["left"]},{"label":["fbs"],"name":[7],"type":["fctr"],"align":["left"]},{"label":["restecg"],"name":[8],"type":["fctr"],"align":["left"]},{"label":["thalach"],"name":[9],"type":["int"],"align":["right"]},{"label":["exang"],"name":[10],"type":["fctr"],"align":["left"]},{"label":["oldpeak"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["slope"],"name":[12],"type":["fctr"],"align":["left"]},{"label":["ca"],"name":[13],"type":["fctr"],"align":["left"]},{"label":["thal"],"name":[14],"type":["fctr"],"align":["left"]}],"data":[{"1":"0","2":"52","3":"1","4":"0","5":"125","6":"0","7":"0","8":"1","9":"168","10":"0","11":"1.0","12":"2","13":"2","14":"1","_rn_":"1"},{"1":"0","2":"53","3":"1","4":"0","5":"140","6":"0","7":"1","8":"0","9":"155","10":"1","11":"3.1","12":"0","13":"0","14":"1","_rn_":"2"},{"1":"0","2":"70","3":"1","4":"0","5":"145","6":"0","7":"0","8":"1","9":"125","10":"1","11":"2.6","12":"0","13":"0","14":"1","_rn_":"3"},{"1":"0","2":"61","3":"1","4":"0","5":"148","6":"0","7":"0","8":"1","9":"161","10":"0","11":"0.0","12":"2","13":"1","14":"1","_rn_":"4"},{"1":"0","2":"62","3":"0","4":"0","5":"138","6":"0","7":"1","8":"1","9":"106","10":"0","11":"1.9","12":"1","13":"3","14":"1","_rn_":"5"},{"1":"1","2":"58","3":"0","4":"0","5":"100","6":"0","7":"0","8":"0","9":"122","10":"0","11":"1.0","12":"1","13":"0","14":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10],"total":[14]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>age, trestbps, thalach, oldpeak are continuous varibale, while the remaining variables are discrete. Therefore mixed interaction models are applied</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuU1M8LSBDR3N0YXRzKGRhdGEsdmFybmFtZXMgPSBjKFwidGFyZ2V0XCIsIFwiYWdlXCIsIFwidHJlc3RicHNcIiwgXCJ0aGFsYWNoXCIsIFwib2xkcGVha1wiKSlcblNTXG5gYGAifQ== -->
+<pre class="r"><code>SS&lt;- CGstats(data,varnames = c(&quot;target&quot;, &quot;age&quot;, &quot;trestbps&quot;, &quot;thalach&quot;, &quot;oldpeak&quot;))
+SS</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJG4ub2JzXG5cbiAgMCAgIDEgXG40OTkgNTI2IFxuXG4kY2VudGVyXG4gICAgICAgICAgICAgICAgIDAgICAgICAgICAgMVxuYWdlICAgICAgIDU2LjU2OTE0ICA1Mi40MDg3NDVcbnRyZXN0YnBzIDEzNC4xMDYyMSAxMjkuMjQ1MjQ3XG50aGFsYWNoICAxMzkuMTMwMjYgMTU4LjU4NTU1MVxub2xkcGVhayAgICAxLjYwMDIwICAgMC41Njk5NjJcblxuJGNvdlxuICAgICAgICAgICAgICAgIGFnZSAgIHRyZXN0YnBzICAgIHRoYWxhY2ggICBvbGRwZWFrXG5hZ2UgICAgICAgNzcuOTAxOTM2ICAzNy45OTEzMjQgLTYxLjE0NTI1NiAgMS4xNDU4NTVcbnRyZXN0YnBzICAzNy45OTEzMjQgMzAwLjYzMjkxMSAgIDcuODE5MDgzICAyLjYwMzA4N1xudGhhbGFjaCAgLTYxLjE0NTI1NiAgIDcuODE5MDgzIDQzNC4xODU1NDUgLTQuNDM5Mzc3XG5vbGRwZWFrICAgIDEuMTQ1ODU1ICAgMi42MDMwODcgIC00LjQzOTM3NyAgMS4xMTQyMzlcblxuJGNvbnQubmFtZXNcblsxXSBcImFnZVwiICAgICAgXCJ0cmVzdGJwc1wiIFwidGhhbGFjaFwiICBcIm9sZHBlYWtcIiBcblxuJGRpc2MubmFtZXNcblsxXSBcInRhcmdldFwiXG5cbiRkaXNjLmxldmVsc1xuWzFdIDJcbiJ9 -->
+<pre><code>$n.obs
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIlByb2plY3QiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpgYGB7cn0NCnNldHdkKCJDOi9Vc2Vycy9zaW1vbi9EZXNrdG9wL0dyYXBoaWNhbCBNb2RlbC9wcm9iYWJpbGlzdGljX21vZGVsbGluZyIpDQpkYXRhIDwtIHJlYWQuY3N2KGZpbGUgPSAnaGVhcnQuY3N2JykNCmhlYWQoZGF0YSkNCmBgYA==</div>
+  0   1 
+499 526 
+
+$center
+                 0          1
+age       56.56914  52.408745
+trestbps 134.10621 129.245247
+thalach  139.13026 158.585551
+oldpeak    1.60020   0.569962
+
+$cov
+                age   trestbps    thalach   oldpeak
+age       77.901936  37.991324 -61.145256  1.145855
+trestbps  37.991324 300.632911   7.819083  2.603087
+thalach  -61.145256   7.819083 434.185545 -4.439377
+oldpeak    1.145855   2.603087  -4.439377  1.114239
+
+$cont.names
+[1] &quot;age&quot;      &quot;trestbps&quot; &quot;thalach&quot;  &quot;oldpeak&quot; 
+
+$disc.names
+[1] &quot;target&quot;
+
+$disc.levels
+[1] 2</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXBwbHkoU1MkY2VudGVyLDEsc2QpL2FwcGx5KFNTJGNlbnRlciwxLG1lYW4pXG5gYGAifQ== -->
+<pre class="r"><code>apply(SS$center,1,sd)/apply(SS$center,1,mean)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiICAgICAgIGFnZSAgIHRyZXN0YnBzICAgIHRoYWxhY2ggICAgb2xkcGVhayBcbjAuMDUzOTg5NzEgMC4wMjYxMDM2OCAwLjA5MjQxNjc4IDAuNjcxMzY3ODAgXG4ifQ== -->
+<pre><code>       age   trestbps    thalach    oldpeak 
+0.05398971 0.02610368 0.09241678 0.67136780 </code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FuLnBhcm1zIDwtIENHc3RhdHMybW1vZFBhcm1zKFNTLHR5cGU9XCJnaGtcIilcbmNhbi5wYXJtc1xuYGBgIn0= -->
+<pre class="r"><code>can.parms &lt;- CGstats2mmodParms(SS,type=&quot;ghk&quot;)
+can.parms</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiJGdcblxuICAgICAgICAwICAgICAgICAgMSBcbi05Mi4wMTA1OCAtOTQuNzM5MTEgXG5cbiRoXG4gICAgICAgICAgWywxXSAgICAgIFssMl1cblsxLF0gMC45MTUyNTU5IDAuOTA1NjkzNFxuWzIsXSAwLjMwNDQzMzYgMC4yOTUwMjcxXG5bMyxdIDAuNDYwMzkzOSAwLjQ5NjM2MjBcbls0LF0gMS42MTgwMDQ3IDAuODY4NTA3NlxuXG4kS1xuICAgICAgICAgICAgIFssMV0gICAgICAgICBbLDJdICAgICAgICAgWywzXSAgICAgICAgIFssNF1cblsxLF0gIDAuMDE1NTgxODg1IC0wLjAwMjAwNDI3MSAgMC4wMDIyMDQyODQgLTAuMDAyNTU5MjY4XG5bMixdIC0wLjAwMjAwNDI3MSAgMC4wMDM2NjE5NzkgLTAuMDAwNDMyMjA5IC0wLjAwODIxNTk5NFxuWzMsXSAgMC4wMDIyMDQyODQgLTAuMDAwNDMyMjA5ICAwLjAwMjcxOTI5MyAgMC4wMDk1NzcxNjRcbls0LF0gLTAuMDAyNTU5MjY4IC0wLjAwODIxNTk5NCAgMC4wMDk1NzcxNjQgIDAuOTU3NDU2ODQ5XG5cbiRnZW50eXBlXG5bMV0gXCJtaXhlZFwiXG5cbiRnZW50eXBlXG5bMV0gXCJtaXhlZFwiXG5cbiRjb250Lm5hbWVzXG5bMV0gXCJhZ2VcIiAgICAgIFwidHJlc3RicHNcIiBcInRoYWxhY2hcIiAgXCJvbGRwZWFrXCIgXG5cbiRkaXNjLm5hbWVzXG5bMV0gXCJ0YXJnZXRcIlxuXG4kZGlzYy5sZXZlbHNcblsxXSAyXG4ifQ== -->
+<pre><code>$g
+
+        0         1 
+-92.01058 -94.73911 
+
+$h
+          [,1]      [,2]
+[1,] 0.9152559 0.9056934
+[2,] 0.3044336 0.2950271
+[3,] 0.4603939 0.4963620
+[4,] 1.6180047 0.8685076
+
+$K
+             [,1]         [,2]         [,3]         [,4]
+[1,]  0.015581885 -0.002004271  0.002204284 -0.002559268
+[2,] -0.002004271  0.003661979 -0.000432209 -0.008215994
+[3,]  0.002204284 -0.000432209  0.002719293  0.009577164
+[4,] -0.002559268 -0.008215994  0.009577164  0.957456849
+
+$gentype
+[1] &quot;mixed&quot;
+
+$gentype
+[1] &quot;mixed&quot;
+
+$cont.names
+[1] &quot;age&quot;      &quot;trestbps&quot; &quot;thalach&quot;  &quot;oldpeak&quot; 
+
+$disc.names
+[1] &quot;target&quot;
+
+$disc.levels
+[1] 2</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYXBwbHkoY2FuLnBhcm1zJGgsMSxzZCkvYXBwbHkoY2FuLnBhcm1zJGgsMSxtZWFuKVxuYGBgIn0= -->
+<pre class="r"><code>apply(can.parms$h,1,sd)/apply(can.parms$h,1,mean)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDAuMDA3NDI2NTE3IDAuMDIyMTkxMzEyIDAuMDUzMTY1NzMxIDAuNDI2Mjc5Mzg3XG4ifQ== -->
+<pre><code>[1] 0.007426517 0.022191312 0.053165731 0.426279387</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIlByb2plY3QiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCi0tLQ0KDQpJbXBvcnQgbGlicmFyaWVzDQpgYGB7cn0NCmxpYnJhcnkoZ1JiYXNlKQ0KbGlicmFyeShnUmltKQ0KYGBgDQoNClJlYWQgdGhlIGRhdGFzZXQNCmBgYHtyfQ0Kc2V0d2QoIkM6L1VzZXJzL3NpbW9uL0Rlc2t0b3AvR3JhcGhpY2FsIE1vZGVsL3Byb2JhYmlsaXN0aWNfbW9kZWxsaW5nIikNCmRhdGEgPC0gcmVhZC5jc3YoZmlsZSA9ICdoZWFydC5jc3YnKQ0KZGF0YSA8LSBkYXRhW2MoMTQsMSwyLDMsNCw1LDYsNyw4LDksMTAsMTEsMTIsMTMpXQ0KZGF0YSR0YXJnZXQgPC0gZmFjdG9yKGRhdGEkdGFyZ2V0KQ0KZGF0YSRzZXggPC0gZmFjdG9yKGRhdGEkc2V4KQ0KZGF0YSRjcCA8LSBmYWN0b3IoZGF0YSRjcCkNCmRhdGEkZmJzIDwtIGZhY3RvcihkYXRhJGZicykNCmRhdGEkcmVzdGVjZyA8LSBmYWN0b3IoZGF0YSRyZXN0ZWNnKQ0KZGF0YSRleGFuZyA8LSBmYWN0b3IoZGF0YSRleGFuZykNCmRhdGEkc2xvcGUgPC0gZmFjdG9yKGRhdGEkc2xvcGUpDQpkYXRhJGNhIDwtIGZhY3RvcihkYXRhJGNhKQ0KZGF0YSRjYSA8LSBmYWN0b3IoZGF0YSRjYSkNCiMgdG8gbWFrZSBkYXRhIGNvbXBhcmFibGUgd2l0aCB0aCBvdGhlciBkYXRhc2V0DQpkYXRhJHRoYWxbZGF0YSR0aGFsID49IDFdIDwtIDENCmRhdGEkdGhhbFtkYXRhJHRoYWwgPCAxXSAgPC0gMA0KZGF0YSR0aGFsIDwtIGZhY3RvcihkYXRhJHRoYWwpDQpkYXRhJGNob2xbZGF0YSRjaG9sID4gMjQwXSAgPC0gMQ0KZGF0YSRjaG9sW2RhdGEkY2hvbCA8PSAyNDBdICA8LSAwDQpuYW1lcyhkYXRhKVtuYW1lcyhkYXRhKSA9PSAiY2hvbCJdIDwtICJoeXBlcmNob2wiDQpkYXRhJGh5cGVyY2hvbCA8LSBmYWN0b3IoZGF0YSRoeXBlcmNob2wpDQpoZWFkKGRhdGEpDQpgYGANCg0KDQphZ2UsIHRyZXN0YnBzLCB0aGFsYWNoLCBvbGRwZWFrIGFyZSBjb250aW51b3VzIHZhcmliYWxlLCB3aGlsZSB0aGUgcmVtYWluaW5nIHZhcmlhYmxlcw0KYXJlIGRpc2NyZXRlLiBUaGVyZWZvcmUgbWl4ZWQgaW50ZXJhY3Rpb24gbW9kZWxzIGFyZSBhcHBsaWVkDQoNCmBgYHtyfQ0KU1M8LSBDR3N0YXRzKGRhdGEsdmFybmFtZXMgPSBjKCJ0YXJnZXQiLCAiYWdlIiwgInRyZXN0YnBzIiwgInRoYWxhY2giLCAib2xkcGVhayIpKQ0KU1MNCmBgYA0KDQpgYGB7cn0NCmFwcGx5KFNTJGNlbnRlciwxLHNkKS9hcHBseShTUyRjZW50ZXIsMSxtZWFuKQ0KYGBgDQoNCmBgYHtyfQ0KY2FuLnBhcm1zIDwtIENHc3RhdHMybW1vZFBhcm1zKFNTLHR5cGU9ImdoayIpDQpjYW4ucGFybXMNCmBgYA0KDQpgYGB7cn0NCmFwcGx5KGNhbi5wYXJtcyRoLDEsc2QpL2FwcGx5KGNhbi5wYXJtcyRoLDEsbWVhbikNCmBgYA0KDQoNCg==</div>
 
 
 
