@@ -28,6 +28,7 @@ data$class_age[ data$class_age>=45 & data$class_age<=65] <- 2
 data$class_age[data$class_age>65] <- 3
 head(data)
 
+
 # Analysis of the distributions of discrete  variables
 barplot(prop.table(table(data$target)), main="Disease",names.arg=c("No", "Yes") )
 barplot(prop.table(table(data$sex)), main="Sex distribution",  names.arg=c("Female", "Male"))
