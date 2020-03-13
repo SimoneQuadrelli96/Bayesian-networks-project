@@ -1,8 +1,11 @@
 # Import libraries
 library("Rgraphviz")
 library("igraph")
+library(gRbase)
 library(gRim)
-
+library(bnlearn)
+library(DAAG)
+library(lattice)
 # Read the dataset
 setwd("C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling")
 data <- read.csv(file = 'heart.csv')
@@ -21,11 +24,16 @@ data$hyperchol <- data$chol
 data$hyperchol[data$hyperchol<= 240 ]  <- 0
 data$hyperchol[data$hyperchol> 240]  <- 1
 data$hyperchol <- factor(data$hyperchol)
+data$thal <- factor(data$thal)
 data$class_age <- data$age
-head(data)
 data$class_age[data$class_age<45] <- 1
 data$class_age[ data$class_age>=45 & data$class_age<=65] <- 2
 data$class_age[data$class_age>65] <- 3
+data$age <- as.double(data$age)
+data$trestbps <- as.double(data$trestbps)
+data$chol <- as.double(data$chol)
+data$thalach <- as.double(data$thalach)
+data$oldpeak <- as.double(data$oldpeak)
 head(data)
 
 
@@ -51,12 +59,28 @@ m_sat <- dmod(~.^.,data=data_table)
 m1 <- stepwise(m_sat)
 m2 <- stepwise(m_sat,k=log(sum(data_table)))
 # start from the null model
-m3  <- stepwise(m_sat,k=log(sum(data_table)),direction="forward",details=1)
+m3  <- stepwise(dmod(~.^1,data=data_table) ,k=log(sum(data_table)),direction="forward",details=1)
 
 
+summary(m3)
+attributes(m3)
+
+# list of the generators
+m3$glist
+
+
+#fbs is not linked to any node
 x11()
 par(mfrow=c(2,2))
 plot(as(m_sat,"igraph"),main="Initial model backward")
 plot(as(m3,"igraph"),main="Initial model forward")
 plot(as(m1,"igraph"), main="AIC")
 plot(as(m2,"igraph"), main="BIC")
+
+
+bn_data = data[c(2,3,4,5,6,7,8,9,10,11,12,13,14)]
+structure <- hc(bn_data, score = "bic-cg")
+bn.mod <- bn.fit(structure, data = bn_data)
+
+x11()
+graphviz.plot(structure)
