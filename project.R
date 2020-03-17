@@ -1,11 +1,12 @@
 # Import libraries
-library("Rgraphviz")
-library("igraph")
+library(Rgraphviz)
+library(igraph)
 library(gRbase)
 library(gRim)
 library(bnlearn)
 library(DAAG)
 library(lattice)
+
 # Read the dataset
 setwd("C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling")
 data <- read.csv(file = 'heart.csv')
@@ -38,42 +39,58 @@ head(data)
 
 
 # Analysis of the distributions of discrete  variables
-barplot(prop.table(table(data$target)), main="Disease",names.arg=c("No", "Yes") )
-barplot(prop.table(table(data$sex)), main="Sex distribution",  names.arg=c("Female", "Male"))
-barplot(prop.table(table(data$cp)), main="Chest pain distribution",  names.arg=c("No", "Yes"))
-barplot(prop.table(table(data$fbs)), main="Fasting blood sugar > 120 mg/dl distribution",  names.arg=c("No", "Yes"))
-barplot(prop.table(table(data$restecg)), main="Resting electrocardiographic",  names.arg=c("normal", "ST-T ab.","hypertrophy"))
-barplot(prop.table(table(data$exang)), main="Exercise induced angina",  names.arg=c("No", "Yes"))
-barplot(prop.table(table(data$slope)), main="Slope of the peak",  names.arg=c("upsloping", "flat","downsloping"))
-barplot(prop.table(table(data$ca)), main="Major vessels colored")
-barplot(prop.table(table(data$thal)), main="Thal distribution")
-barplot(prop.table(table(data$hyperchol)), main="Hypercholestrol distribution",  names.arg=c("No", "Yes"))
-barplot(prop.table(table(data$class_age)), main="Age class distribution", names.arg=c("< 45", ">= 45 & <= 65", "> 65") )
+barplot(prop.table(table(data$target)),
+        main="Disease",names.arg=c("No", "Yes") )
+barplot(prop.table(table(data$sex)), 
+        main="Sex distribution",  
+        names.arg=c("Female", "Male"))
+barplot(prop.table(table(data$cp)),
+        main="Chest pain distribution",  
+        names.arg=c("No", "Yes"))
+barplot(prop.table(table(data$fbs)), 
+        main="Fasting blood sugar > 120 mg/dl distribution",  
+        names.arg=c("No", "Yes"))
+barplot(prop.table(table(data$restecg)), 
+        main="Resting electrocardiographic",  
+        names.arg=c("normal", "ST-T ab.","hypertrophy"))
+barplot(prop.table(table(data$exang)), 
+        main="Exercise induced angina",  
+        names.arg=c("No", "Yes"))
+barplot(prop.table(table(data$slope)),
+        main="Slope of the peak",  
+        names.arg=c("upsloping", "flat","downsloping"))
+barplot(prop.table(table(data$ca)), 
+        main="Major vessels colored")
+barplot(prop.table(table(data$thal)), 
+        main="Thal distribution")
+barplot(prop.table(table(data$hyperchol)), 
+        main="Hypercholestrol distribution",  
+        names.arg=c("No", "Yes"))
+barplot(prop.table(table(data$class_age)),
+        main="Age class distribution", 
+        names.arg=c("< 45", ">= 45 & <= 65", "> 65") )
 
-# create table
+
 data_table <- as.table(ftable(data[c(1,3,4,7,8,10,12,13,14,15,16)]))
 
-#model selection
-# saturated model
-m_sat <- dmod(~.^.,data=data_table) 
-m_sat
-m1 <- stepwise(m_sat)
-m1
-m2 <- stepwise(m_sat,k=log(sum(data_table)))
-m2
-# start from the null model
-m3  <- stepwise(dmod(~.^1,data=data_table) ,k=log(sum(data_table)),direction="forward",details=1)
-m3
 
+m_sat <- dmod(~.^.,data=data_table) 
+m1 <- stepwise(m_sat)
+m2 <- stepwise(m_sat,k=log(sum(data_table)))
+m3  <- stepwise(dmod(~.^1,data=data_table) ,k=log(sum(data_table)),direction="forward",details=1)
+
+
+
+
+igraph.to.graphNEL(as(m_sat,"igraph"))
+igraph.to.graphNEL(as(m1,"igraph"))
+igraph.to.graphNEL(as(m2,"igraph"))
+igraph.to.graphNEL(as(m3,"igraph"))
 
 summary(m3)
-attributes(m3)
+m2
+summary(m2)
 
-# list of the generators
-m3$glist
-
-
-#fbs is not linked to any node
 x11()
 par(mfrow=c(2,2))
 plot(as(m_sat,"igraph"),main="Initial model backward")
@@ -83,8 +100,6 @@ plot(as(m2,"igraph"), main="BIC")
 
 
 bn_data = data[c(2,3,4,5,6,7,8,9,10,11,12,13,14,1)]
-structure <- hc(bn_data, score = "bic-cg")
-bn.mod <- bn.fit(structure, data = bn_data)
-
+structure <- hc(bn_data, restart = 20,score = "bic-cg")
 x11()
-graphviz.plot(structure, layout = "dot")
+plot(as(amat(structure), "graphNEL"))
