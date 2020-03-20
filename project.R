@@ -6,6 +6,8 @@ library(gRim)
 library(bnlearn)
 library(DAAG)
 library(lattice)
+library(ggm) 
+library(igraph) 
 
 # Read the dataset
 setwd("C:/Users/simon/Desktop/Graphical Model/probabilistic_modelling")
@@ -99,7 +101,17 @@ plot(as(m1,"igraph"), main="AIC")
 plot(as(m2,"igraph"), main="BIC")
 
 
-bn_data = data[c(2,3,4,5,6,7,8,9,10,11,12,13,14,1)]
-structure <- hc(bn_data, restart = 20,score = "bic-cg")
+bn_data = data[c(1,2,3,4,5,15,7,8,9,10,11,12,13,14)]
+classes <- c(2,1,1,3,4,1,1,1,1,3,4,4,4,1)
+FrobiddenArcs <- matrix(0, nrow=length(bn_data), ncol=length(bn_data)) 
+rownames(FrobiddenArcs)  <- names(bn_data) 
+colnames(FrobiddenArcs) <- names(bn_data)
+for (b in 2:4){
+        FrobiddenArcs[classes==b, classes<b] <- 1 
+}
+
+ForbiddenList <- data.frame(get.edgelist(as(FrobiddenArcs, "igraph")))
+names(ForbiddenList) <- c("from", "to") 
+bn_model <- hc(bn_data, blacklist=ForbiddenList)
 x11()
-plot(as(amat(structure), "graphNEL"))
+plot(as(amat(bn_model), "graphNEL"))
