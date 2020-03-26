@@ -1,0 +1,13 @@
+\subsection{Fitting Algorithm}
+The fitting algorithm used by the R package is called iterative proportional fitting (IPF) executes the following steps, for 2-d tables, until convergence.
+\begin{enumerate}
+    \item Each row of seed cells was proportionally adjusted to
+    equal the marginal row totals (specifically, each cell was divided
+    by the actual sum of the row of cells, then multiplied by the
+    marginal row total).
+    \item Each column of (already row-adjusted) cells was
+    proportionally adjusted to equal the marginal column totals.
+    This is the end of the first ‘Iteration’.
+    \item The above steps were repeated until
+    the selected level of convergence was reached.
+\end{enumerate}

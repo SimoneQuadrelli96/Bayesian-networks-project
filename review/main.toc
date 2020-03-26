@@ -1,0 +1,13 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Dataset description}{1}%
+\contentsline {subsection}{\numberline {1.1}Variable description}{2}%
+\contentsline {subsection}{\numberline {1.2}Objectives}{3}%
+\contentsline {section}{\numberline {2}Methodology}{3}%
+\contentsline {subsection}{\numberline {2.1}Log-linear models}{4}%
+\contentsline {subsection}{\numberline {2.2}Model selection}{5}%
+\contentsline {subsection}{\numberline {2.3}Bayesian networks}{6}%
+\contentsline {section}{\numberline {3}Results}{8}%
+\contentsline {subsection}{\numberline {3.1}Log-linear models}{8}%
+\contentsline {subsection}{\numberline {3.2}Bayesian networks}{10}%
+\contentsline {section}{\numberline {4}Conclusions}{12}%
+\contentsline {section}{\numberline {5}Appendix: Code}{13}%
